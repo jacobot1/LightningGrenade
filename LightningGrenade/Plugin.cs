@@ -11,9 +11,9 @@ namespace LightningGrenade
     public class LightningGrenadeMod : BaseUnityPlugin
     {
         // Mod metadata
-        private const string modGUID = "com.jacobot5.LightningGrenade";
-        private const string modName = "LightningGrenade";
-        private const string modVersion = "1.0.0";
+        public const string modGUID = "com.jacobot5.LightningGrenade";
+        public const string modName = "LightningGrenade";
+        public const string modVersion = "1.0.0";
 
         // Initalize Harmony
         private readonly Harmony harmony = new Harmony(modGUID);
@@ -54,6 +54,7 @@ namespace LightningGrenade
             // Do the patching
             harmony.PatchAll(typeof(LightningGrenadeMod));
             harmony.PatchAll(typeof(StunGrenadeItemPatch));
+            harmony.PatchAll(typeof(KickIfModNotInstalled));
         }
     }
 }

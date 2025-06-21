@@ -43,12 +43,31 @@ namespace LightningGrenade.Patches
             __instance.hasExploded = true;
             Transform parent = ((!__instance.isInElevator) ? RoundManager.Instance.mapPropsContainer.transform : StartOfRound.Instance.elevatorTransform);
 
-            // Fire lightning bolt
-            LightningGrenade.Scripts.LightningStrikeScript.SpawnLightningBolt(__instance.transform.position, thunderOrigin);
-            DamageAndKillScript.DamageOrKillInRadius(__instance.transform.position, LightningGrenadeMod.configLightningDamageRadius.Value, 0, CauseOfDeath.Electrocution);
+            // Lightning strike position
+            Vector3 strikePosition = __instance.transform.position;
 
-            __instance.itemAudio.PlayOneShot(__instance.explodeSFX);
-            WalkieTalkie.TransmitOneShotAudio(__instance.itemAudio, __instance.explodeSFX);
+            // Cutoff for lightning bolt if hitting something above
+            float lightningCutoff = 0f;
+            
+            if (GameNetworkManager.Instance.localPlayerController.isInsideFactory)
+            {
+                RoundManager roundManager = Object.FindObjectOfType<RoundManager>();
+                roundManager.SwitchPower(on: false);
+                lightningCutoff =  80f; // Move up out of sight theoretically
+            }
+            else if (StartOfRound.Instance.shipBounds.bounds.Contains(strikePosition))
+            {
+                lightningCutoff =  9f; // Move up out of sight theoretically
+            }
+            else
+            {
+                DamageAndKillScript.DamageOrKillInRadius(strikePosition, LightningGrenadeMod.configLightningDamageRadius.Value, 0, CauseOfDeath.Electrocution);
+            }
+            // Fire lightning bolt
+            LightningStrikeScript.SpawnLightningBolt(strikePosition, lightningCutoff, thunderOrigin, LightningGrenadeMod.configLightningVolume.Value);
+
+            // __instance.itemAudio.PlayOneShot(__instance.explodeSFX); Don't play normal explosion sound
+            // WalkieTalkie.TransmitOneShotAudio(__instance.itemAudio, __instance.explodeSFX); Also don't play over walkie
             if (__instance.DestroyGrenade)
             {
                 __instance.DestroyObjectInHand(__instance.playerThrownBy);

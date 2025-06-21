@@ -7,7 +7,7 @@ namespace LightningGrenade.Scripts
     public class LightningStrikeScript
     {
         public static StormyWeather? stormyWeather = null;
-        public static void SpawnLightningBolt(Vector3 strikePosition, AudioSource lightningAudio)
+        public static void SpawnLightningBolt(Vector3 strikePosition, float lightningCutoff, AudioSource lightningAudio, float strikeVolume)
         {
             Vector3 offset = new Vector3(UnityEngine.Random.Range(-32, 32), 0f, UnityEngine.Random.Range(-32, 32));
             Vector3 vector = strikePosition + Vector3.up * 160f + offset;
@@ -15,7 +15,6 @@ namespace LightningGrenade.Scripts
             if (stormyWeather == null)
             {
                 stormyWeather = UnityEngine.Object.FindObjectOfType<StormyWeather>(true);
-                LightningGrenadeMod.mls.LogInfo("Getting stormy weather for the first time");
             }
             
             // Plugin.ExtendedLogging($"{vector} -> {strikePosition}");
@@ -28,20 +27,13 @@ namespace LightningGrenade.Scripts
             localLightningBoltPrefabScript.TrunkWidthRange = new RangeOfFloats { Minimum = 0.6f, Maximum = 1.2f };
             localLightningBoltPrefabScript.Camera = GameNetworkManager.Instance.localPlayerController.gameplayCamera;
             localLightningBoltPrefabScript.Source.transform.position = vector;
-            localLightningBoltPrefabScript.Destination.transform.position = strikePosition;
+            localLightningBoltPrefabScript.Destination.transform.position = strikePosition + Vector3.up * lightningCutoff;
             localLightningBoltPrefabScript.AutomaticModeSeconds = 0.2f;
             localLightningBoltPrefabScript.Generations = 8;
             localLightningBoltPrefabScript.CreateLightningBoltsNow();
 
             lightningAudio.transform.position = strikePosition;
-            if (GameNetworkManager.Instance.localPlayerController.isInsideFactory)
-            {
-                lightningAudio.volume = LightningGrenadeMod.configLightningVolume.Value / 2;
-            }
-            else
-            {
-                lightningAudio.volume = LightningGrenadeMod.configLightningVolume.Value;
-            }
+            lightningAudio.volume = strikeVolume;
             stormyWeather.PlayThunderEffects(strikePosition, lightningAudio);
         }
     }
