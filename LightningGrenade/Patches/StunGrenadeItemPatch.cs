@@ -1,10 +1,5 @@
-﻿using GameNetcodeStuff;
-using HarmonyLib;
-using LightningGrenade.Scripts;
-using System.Reflection;
+﻿using HarmonyLib;
 using UnityEngine;
-using LethalNetworkAPI;
-using System.Data.Common;
 
 namespace LightningGrenade.Patches
 {
@@ -63,7 +58,7 @@ namespace LightningGrenade.Patches
             }
             else
             {
-                DamageAndKillScript.DamageOrKillInRadius(strikePosition, LightningGrenadeMod.configLightningDamageRadius.Value, 0, CauseOfDeath.Electrocution);
+                EZDamage.API.KillEverything(strikePosition, LightningGrenadeMod.configLightningDamageRadius.Value, CauseOfDeath.Electrocution);
             }
             // Fire lightning bolt
             EZLightning.API.Strike(strikePosition + Vector3.up * lightningCutoff, LightningGrenadeMod.configLightningVolume.Value);

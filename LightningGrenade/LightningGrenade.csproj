@@ -25,6 +25,9 @@
       <HintPath>D:\GameTools\BepInEx\BepInEx\core\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="EZDamage">
+      <HintPath>..\..\EZDamage\EZDamage\bin\Debug\netstandard2.1\EZDamage.dll</HintPath>
+    </Reference>
     <Reference Include="EZLightning">
       <HintPath>..\..\EZLightning\EZLightning\bin\Release\netstandard2.1\EZLightning.dll</HintPath>
     </Reference>

@@ -3,7 +3,6 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using LightningGrenade.Patches;
-using UnityEngine;
 
 namespace LightningGrenade
 {
