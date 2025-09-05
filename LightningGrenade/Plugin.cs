@@ -8,6 +8,7 @@ using UnityEngine;
 namespace LightningGrenade
 {
     [BepInPlugin(modGUID, modName, modVersion)]
+    [BepInDependency("com.jacobot5.EZLightning")]
     public class LightningGrenadeMod : BaseUnityPlugin
     {
         // Mod metadata

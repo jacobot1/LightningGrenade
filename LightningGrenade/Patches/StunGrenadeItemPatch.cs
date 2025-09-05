@@ -3,6 +3,8 @@ using HarmonyLib;
 using LightningGrenade.Scripts;
 using System.Reflection;
 using UnityEngine;
+using LethalNetworkAPI;
+using System.Data.Common;
 
 namespace LightningGrenade.Patches
 {
@@ -64,7 +66,7 @@ namespace LightningGrenade.Patches
                 DamageAndKillScript.DamageOrKillInRadius(strikePosition, LightningGrenadeMod.configLightningDamageRadius.Value, 0, CauseOfDeath.Electrocution);
             }
             // Fire lightning bolt
-            LightningStrikeScript.SpawnLightningBolt(strikePosition, lightningCutoff, thunderOrigin, LightningGrenadeMod.configLightningVolume.Value);
+            EZLightning.API.Strike(strikePosition + Vector3.up * lightningCutoff, LightningGrenadeMod.configLightningVolume.Value);
 
             // __instance.itemAudio.PlayOneShot(__instance.explodeSFX); Don't play normal explosion sound
             // WalkieTalkie.TransmitOneShotAudio(__instance.itemAudio, __instance.explodeSFX); Also don't play over walkie
