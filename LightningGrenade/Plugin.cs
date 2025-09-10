@@ -13,7 +13,7 @@ namespace LightningGrenade
         // Mod metadata
         public const string modGUID = "com.jacobot5.LightningGrenade";
         public const string modName = "LightningGrenade";
-        public const string modVersion = "2.0.1";
+        public const string modVersion = "2.0.2";
 
         // Initalize Harmony
         private readonly Harmony harmony = new Harmony(modGUID);
